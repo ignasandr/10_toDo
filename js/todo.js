@@ -19,7 +19,11 @@ function renderList(list) {
   return listPlace.innerHTML += HTML
 }
 
+// GENERATE ALL
+
 renderList(todo_list);
+
+//REMOVE SINGLE ITEM
 
 const removeActions = document.querySelectorAll('.item .action.remove')
 
@@ -29,7 +33,21 @@ for (let i=0; i<removeActions.length; i++) {
 }
 
 function actionRemoveTodoItem() {
-  // const parentItem = event.target.closest('.item');
-  const parentItem = event.path[2];
+  const parentItem = event.target.closest('.item');
+  //const parentItem = event.path[2];
   parentItem.remove();
+}
+
+//REMOVE ALL TODO ITEMS
+const BTNremoveAll = document.querySelector('.global-actions > .action.remove');
+
+BTNremoveAll.addEventListener('click', actionRemoveAllTodoItems);
+
+function actionRemoveAllTodoItems() {
+  const allTodoItems = event.target.closest('.container').querySelectorAll('.item');
+
+  for (let i=0; i<allTodoItems.length; i++) {
+    allTodoItems[i].remove();
+  }
+
 }
