@@ -63,13 +63,19 @@ body {
             width: 100%;
         }
 
-        .container > .item > .actions {
+      }
+      .container > .item > .actions {
           display: inline-block;
           width: 100%;
-        }
-          .container > .item > .actions > .action {
-            display: inline-block;
-            width: 100%;
+      }
+          .item > .actions > .action {
+              display: inline-block;
+              margin: 10px 10px 0 0;
+              color: #36f;
+              font-size: 14px;
+              line-height: 20px;
+              text-decoration: underline;
+              cursor: pointer;
           }
 
 
