@@ -30,8 +30,55 @@ body {
     .container > .form {
         display: inline-block;
         grid-area: newTodo;
-        background-color: yellow;
     }
+        .container > .form > fieldset {
+            display: inline-block;
+            width: 100%;
+        }
+        .container > .form > label {
+            display: inline-block;
+            width: 100%;
+        }
+        .container > .form > textarea {
+            display: inline-block;
+            width: 100%;
+            height: 95px;
+            min-height: 95px;
+            max-height: 270px;
+            padding: 10px;
+            line-height: 25px;
+            font-size: 20px;
+        }
+        .container > .form > input {
+            display: inline-block;
+            width: 100%;
+        }
+          .container > .form > .actions {
+              display: inline-block;
+              width: 100%;
+          }
+            .form > .actions > .btn {
+                display: inline-block;
+                padding: 5px 15px;
+                border: 1px solid #ccc;
+                background-color: #36f;
+                color: #fff;
+                line-height: 20px;
+                font-size: 18px;
+                cursor: pointer;
+            }
+              .form > .actions > .btn: hover {
+                  display: inline-block;
+                  box-shadow: 20 20 20;
+              }
+              .form > .actions > .btn.add {
+                  display: inline-block;
+
+              }
+              .form > .actions > .btn.clear {
+                  display: inline-block;
+              }
+
     .container > .item {
         display: inline-block;
         padding: 20px 20px 10px;
