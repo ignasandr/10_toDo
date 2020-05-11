@@ -15,12 +15,18 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
+        "globalActions"
         "newTodo"
         ".";
     width: 100%;
     padding: 20px;
     gap: 15px 40px;
 }
+    .container > .global-actions {
+          display: inline-block;
+          grid-area: globalActions;
+          cursor: pointer;
+    }
     .container > .form {
         display: inline-block;
         grid-area: newTodo;
@@ -63,13 +69,19 @@ body {
             width: 100%;
         }
 
-        .container > .item > .actions {
+      }
+      .container > .item > .actions {
           display: inline-block;
           width: 100%;
-        }
-          .container > .item > .actions > .action {
-            display: inline-block;
-            width: 100%;
+      }
+          .item > .actions > .action {
+              display: inline-block;
+              margin: 10px 10px 0 0;
+              color: #36f;
+              font-size: 14px;
+              line-height: 20px;
+              text-decoration: underline;
+              cursor: pointer;
           }
 
 
@@ -78,6 +90,7 @@ body {
     .container {
         grid-template-columns: 1fr 1fr;
         grid-template-areas:
+            "globalActions globalActions"
             "newTodo newTodo"
             ". .";
     }
@@ -86,6 +99,7 @@ body {
     .container {
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-areas:
+            "globalActions globalActions globalActions"
             "newTodo newTodo newTodo"
             ". . .";
     }
@@ -94,6 +108,7 @@ body {
     .container {
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas:
+            "globalActions globalActions globalActions globalActions"
             "newTodo newTodo newTodo newTodo"
             ". . . .";
     }
