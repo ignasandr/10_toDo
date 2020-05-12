@@ -16,10 +16,13 @@ function renderList(list) {
       </div>
     </div>`;
   }
-  return listPlace.innerHTML += HTML
+
+  return listPlace.insertAdjacentHTML('beforeend', HTML);
+  // return listPlace.innerHTML += HTML;
 }
 
-// GENERATE ALL
+
+// GENERATE CONTENT
 
 renderList(todo_list);
 
@@ -44,7 +47,9 @@ const BTNremoveAll = document.querySelector('.global-actions > .action.remove');
 BTNremoveAll.addEventListener('click', actionRemoveAllTodoItems);
 
 function actionRemoveAllTodoItems() {
-  const allTodoItems = event.target.closest('.container').querySelectorAll('.item');
+  const allTodoItems = event.target
+                      .closest('.container')
+                      .querySelectorAll('.item');
 
   for (let i=0; i<allTodoItems.length; i++) {
     allTodoItems[i].remove();
@@ -82,6 +87,8 @@ function addNewTodoItem() {
           status: 'todo'
       };
 
+  console.log(newTodo);
+
     if (newTodo.description.length === 0) {
       return console.error('ERROR: tuscias aprasymas');
     }
@@ -90,12 +97,8 @@ function addNewTodoItem() {
       return console.error('ERROR: neteisingaaaaai!')
     }
 
-  console.log(newTodo);
-  console.log(todo_list)
 
-  todo_list.push(newTodo);
 
-  return;
 }
 
 function formatedDate( deltaTime = 0 ) {
