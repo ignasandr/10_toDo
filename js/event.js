@@ -18,3 +18,5 @@ function antrosiosVeiksmas() {
   antrosiosKartai++;
   return console.log('Antra: ', antrosiosKartai);
 }
+
+//testing git
