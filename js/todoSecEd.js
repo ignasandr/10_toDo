@@ -112,6 +112,29 @@ function removeTodo(todoIndex) {
   return;
 }
 
+function createNewTodo() {
+  todo_id++;
+  let newTodo = {
+          id: todo_id,
+          description: DOMtaskTextarea.value.trim(),
+          created_on: formatedDate(),
+          deadline: DOMdeadlineInput.value.trim(),
+          status: 'todo'
+      };
+
+  console.log(newTodo);
+
+    if (newTodo.description.length === 0) {
+      return console.error('ERROR: tuscias aprasymas');
+    }
+    if (newTodo.deadline.length > 0 &&
+        new Date(newTodo.deadline).toString() === 'Invalid Date') {
+      return console.error('ERROR: neteisingaaaaai!')
+    }
+    todo_list.push(newTodo);
+    renderTodoItem(newTodo);
+}
+
 // GENERATE CONTENT
 
 renderList(todo_list);
@@ -121,3 +144,5 @@ DOMdeadlineInput.value = formatedDate( 86400000 );
 // INIT ACTIONS
 
 BTNremoveAll.addEventListener('click', removeAllTodos);
+
+DOMformAdd.addEventListener('click', createNewTodo);
