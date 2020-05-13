@@ -1,4 +1,6 @@
 "use strict";
+let todo_id = 0;
+let todo_list = [];
 
 const DOMcontainer = document.querySelector('.container');
 
@@ -7,10 +9,13 @@ const BTNremoveAll = DOMglobals.querySelector('.action.remove');
 
 const DOMform = DOMcontainer.querySelector('.form');
 const DOMtaskTextarea = DOMform.querySelector('textarea[name="task"]');
+const DOMswitchStatus = DOMform.querySelector('.switch');
 const DOMdeadlineInput = DOMform.querySelector('input[name="deadline"]');
 const DOMformActions = DOMform.querySelector('.actions');
 const DOMformAdd = DOMformActions.querySelector('.btn.add');
 const DOMformClear = DOMformActions.querySelector('.btn.clear');
+const DOMformSave = DOMformActions.querySelector('.btn.save');
+const DOMformCancel = DOMformActions.querySelector('.btn.cancel');
 
 let DOMitems = null;
 
@@ -31,6 +36,7 @@ function renderTodoItem(data) {
     <div class="deadline">${data.deadline}</div>
     <div class="actions">
       <div class="action remove">Remove</div>
+      <div class="action edit">Edit</div>
     </div>
   </div>`;
 
@@ -43,7 +49,7 @@ function renderTodoItem(data) {
   const currentlyAddedItem = DOMitems[currentlyAddedItemIndex];
 
   //registruojame event listener'i
-  currentlyAddedItem.querySelector('.action.remove')
+  item.querySelector('.action.remove')
                     .addEventListener('click', () => {
                       let index = 0;
                       //kelintas siuo metu sarase yra norimas todo item
@@ -55,9 +61,12 @@ function renderTodoItem(data) {
                       }
                       removeTodo(index);
                     });
+  item.querySelector('.action.edit')
+      .addEventListener('click', () => {
+          DOMform.classList.add('editing');
+      });
   return;
 }
-
 
 
 function formatedDate( deltaTime = 0 ) {
@@ -109,11 +118,11 @@ function removeTodo(todoIndex) {
     }
   }
   todo_list = leftTodos;
+  updateMemory();
   return;
 }
 
 function createNewTodo() {
-  todo_id++;
   let newTodo = {
           id: todo_id,
           description: DOMtaskTextarea.value.trim(),
@@ -133,7 +142,42 @@ function createNewTodo() {
     }
     todo_list.push(newTodo);
     renderTodoItem(newTodo);
+    todo_id++;
+    updateMemory();
 }
+
+function updateSwitch() {
+  const value = event.target.dataset.option;
+  console.log(event.target.parentElement.setAttribute('data-selected', value));
+}
+// MEMORY MANAGEMENT
+
+//jei localStorage nera todo_id, tai ji sukuriu ir priskiriu 0
+//jei yra, tai istraukiu ir priskiriu todo_id
+
+function memoryManagement() {
+  todo_id = 0;
+
+  if (localStorage.getItem('todo_id')) {
+    todo_id = JSON.parse(localStorage.getItem('todo_id'));
+  }
+  else {
+    localStorage.setItem('todo_id', JSON.stringify(todo_id));
+  }
+
+  if (localStorage.getItem('todo_list')) {
+    todo_list = JSON.parse(localStorage.getItem('todo_list'));
+  }
+  else {
+    localStorage.setItem('todo_list', JSON.stringify(todo_list));
+  }
+}
+
+function updateMemory() {
+  localStorage.setItem('todo_id', JSON.stringify(todo_id));
+  localStorage.setItem('todo_list', JSON.stringify(todo_list));
+}
+memoryManagement();
 
 // GENERATE CONTENT
 
@@ -146,3 +190,9 @@ DOMdeadlineInput.value = formatedDate( 86400000 );
 BTNremoveAll.addEventListener('click', removeAllTodos);
 
 DOMformAdd.addEventListener('click', createNewTodo);
+
+DOMswitchStatus.addEventListener('click', updateSwitch);
+
+DOMformCancel.addEventListener('click', () => {
+    DOMform.classList.remove('editing');
+})

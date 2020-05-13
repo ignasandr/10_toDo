@@ -10,25 +10,34 @@
 <body>
 
   <div id="todo" class="container">
-    <div class="global-actions">
-      <div class="action remove">Remove all</div>
+        <div class="global-actions">
+            <div class="action remove">Remove all</div>
+        </div>
+        <form class="form">
+            <fieldset>
+                <label for="task">Task</label>
+                <textarea name="task"></textarea>
+            </fieldset>
+            <fieldset class="status">
+                <label for="status">Status</label>
+                <div class="switch" data-selected="todo">
+                    <div class="option" data-option="todo">Todo</div>
+                    <div class="option" data-option="progress">In progress</div>
+                    <div class="option" data-option="done">Done</div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <label for="deadline">Deadline</label>
+                <input type="text" name="deadline" placeholder="YYYY-MM-DD HH-MM">
+            </fieldset>
+            <div class="actions">
+                <div class="btn add">Add new</div>
+                <div class="btn clear">Clear form</div>
+                <div class="btn save">Save</div>
+                <div class="btn cancel">Cancel</div>
+            </div>
+        </form>
     </div>
-    <form class="form">
-      <fieldset>
-        <label for="task">Task</label>
-        <textarea name="task"></textarea>
-      </fieldset>
-      <fieldset>
-        <label for="deadline">Deadline</label>
-        <input type ="test" name="deadline">
-      </fieldset>
-      <div class="actions">
-        <div class="btn add">Add new</div>
-        <div class="btn clear">Clear form</div>
-      </div>
-    </form>
-  </div>
-  <script src="./js/data/todos.js"></script>
   <script src="./js/todoSecEd.js"></script>
 </body>
 </html>
