@@ -30,7 +30,7 @@ function renderList(list) {
 function renderTodoItem(data) {
   const id = 'todo_'+data.id;
   const HTML = `
-  <div class="item" id="${id}">
+  <div class="item" id="${id}" data-task-id="${data.id}">
     <div class="status ${data.status}"></div>
     <p class="description">${data.description}</p>
     <div class="deadline">${data.deadline}</div>
@@ -63,9 +63,26 @@ function renderTodoItem(data) {
                     });
   item.querySelector('.action.edit')
       .addEventListener('click', () => {
+          DOMcontainer.classList.add('editing');
           DOMform.classList.add('editing');
+          populateEditingForm(data.id);
       });
   return;
+}
+
+function populateEditingForm(id){
+  let task = {};
+  let i = 0;
+  for ( ; i<todo_list.length; i++){
+      if (todo_list[i].id === id) {
+        task = todo_list[i];
+        break;
+      }
+  }
+  DOMform.setAttribute('data-task-index', i);
+  DOMtaskTextarea.value = task.description;
+  DOMdeadlineInput.value = task.deadline;
+  DOMswitchStatus.setAttribute('data-selected', task.status);
 }
 
 
@@ -125,8 +142,8 @@ function removeTodo(todoIndex) {
 function createNewTodo() {
   let newTodo = {
           id: todo_id,
-          description: DOMtaskTextarea.value.trim(),
           created_on: formatedDate(),
+          description: DOMtaskTextarea.value.trim(),
           deadline: DOMdeadlineInput.value.trim(),
           status: 'todo'
       };
@@ -150,6 +167,46 @@ function updateSwitch() {
   const value = event.target.dataset.option;
   console.log(event.target.parentElement.setAttribute('data-selected', value));
 }
+
+function clearForm() {
+  DOMdeadlineInput.value = formatedDate( 86400000 );
+  DOMswitchStatus.setAttribute('data-selected', 'todo');
+  DOMtaskTextarea.value = '';
+  DOMform.classList.remove('editing');
+  DOMcontainer.classList.remove('editing');
+}
+
+function updateTaskInfo() {
+  const index = parseInt(DOMform.dataset.taskIndex);
+  const description = DOMtaskTextarea.value;
+  const deadline = DOMdeadlineInput.value;
+  const status = DOMswitchStatus.dataset.selected;
+
+  if (description.length === 0) {
+    return console.error('ERROR: tuscias aprasymas');
+  }
+  if (deadline.length > 0 &&
+      new Date(deadline).toString() === 'Invalid Date') {
+    return console.error('ERROR: neteisingaaaaai!')
+  }
+
+  todo_list[index].description = description;
+  todo_list[index].dealine = deadline;
+  todo_list[index].status = status;
+
+  updateMemory();
+
+  //update HTML
+  const task_id = '#todo_'+todo_list[index].id;
+  const DOMtask = DOMcontainer.querySelector(task_id);
+  DOMtask.querySelector('.description').innerText = description;
+  DOMtask.querySelector('.deadline').innerText = deadline;
+  const DOMstatus = DOMtask.querySelector('.status');
+  DOMstatus.classList.remove('todo', 'progress', 'done');
+  DOMstatus.classList.add(status);
+
+}
+
 // MEMORY MANAGEMENT
 
 //jei localStorage nera todo_id, tai ji sukuriu ir priskiriu 0
@@ -189,10 +246,20 @@ DOMdeadlineInput.value = formatedDate( 86400000 );
 
 BTNremoveAll.addEventListener('click', removeAllTodos);
 
-DOMformAdd.addEventListener('click', createNewTodo);
+DOMformAdd.addEventListener('click', () => {
+    createNewTodo();
+    clearForm();
+  });
 
 DOMswitchStatus.addEventListener('click', updateSwitch);
 
 DOMformCancel.addEventListener('click', () => {
-    DOMform.classList.remove('editing');
+  clearForm();
 })
+
+DOMformSave.addEventListener('click', () => {
+  updateTaskInfo();
+  clearForm();
+})
+
+DOMformClear.addEventListener('click', clearForm);
